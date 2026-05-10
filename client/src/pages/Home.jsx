@@ -25,7 +25,7 @@ import {
   ShieldCheck,
   Sparkles,
   Users,
-  Youtube,
+  PlaySquare,
 } from 'lucide-react';
 import GradientButton from '../components/common/GradientButton.jsx';
 
@@ -78,7 +78,7 @@ const designItems = [
   { icon: FileText, title: 'Flyers', accent: 'from-violet-500/25 to-fuchsia-500/20' },
   { icon: Boxes, title: 'Product Ads', accent: 'from-emerald-400/20 to-cyan-400/20' },
   { icon: Megaphone, title: 'Social Media Designs', accent: 'from-cyan-400/20 to-blue-500/20' },
-  { icon: Youtube, title: 'YouTube Thumbnails', accent: 'from-red-400/20 to-violet-500/20' },
+  { icon: PlaySquare, title: 'YouTube Thumbnails', accent: 'from-red-400/20 to-violet-500/20' },
   { icon: Flag, title: 'Brand Banners', accent: 'from-amber-300/20 to-cyan-400/20' },
 ];
 
