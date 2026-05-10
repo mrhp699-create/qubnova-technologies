@@ -30,6 +30,7 @@ const normalizeHistory = (history = []) => {
     }))
     .filter((item) => item.text);
 
+  // Gemini chat payloads must not start with a model turn, so drop Nova's opening greeting.
   while (normalized[0]?.role === 'model') {
     normalized.shift();
   }
