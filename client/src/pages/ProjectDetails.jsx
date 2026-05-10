@@ -5,7 +5,7 @@ import {
   CheckCircle2,
   Database,
   ExternalLink,
-  Github,
+  GitBranch,
   Layers3,
   LayoutDashboard,
   LineChart,
@@ -163,7 +163,7 @@ export default function ProjectDetails() {
               <p className="mt-6 max-w-2xl text-xl leading-9 text-slate-600 dark:text-aurora-slate">{project.summary || project.description}</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <GradientButton href={project.liveUrl || '#'} target="_blank" rel="noreferrer">Live Demo <ExternalLink size={18} /></GradientButton>
-                <Button href={project.githubUrl || '#'} target="_blank" rel="noreferrer" variant="secondary"><Github size={18} /> GitHub</Button>
+                <Button href={project.githubUrl || '#'} target="_blank" rel="noreferrer" variant="secondary"><GitBranch size={18} /> GitHub</Button>
                 <Button to="/projects" variant="ghost"><ArrowLeft size={18} /> Back to Projects</Button>
               </div>
             </div>

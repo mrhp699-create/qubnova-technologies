@@ -75,6 +75,7 @@ Planned and/or supported application features include:
 - MongoDB-backed data models for dynamic content.
 - Seed script support for local or cloud database setup.
 - AI demo mode for simulated assistant or workflow experiences.
+- Gemini-powered Nova voice chatbot with browser speech input and spoken replies.
 - Environment-specific configuration for local development and production deployments.
 - Vercel-ready frontend deployment.
 - Render-ready backend deployment.
@@ -270,11 +271,11 @@ ADMIN_EMAIL=admin@qubnova.com
 ADMIN_PASSWORD=ChangeMe123!
 ADMIN_SETUP_KEY=optional-register-admin-key
 
-# AI mode
-AI_DEMO_MODE=true
-AI_PROVIDER=demo
-AI_API_KEY=
-AI_MODEL=
+# AI / Gemini voice chatbot
+AI_DEMO_MODE=false
+AI_PROVIDER=gemini
+GEMINI_API_KEY=paste-your-gemini-api-key-here
+GEMINI_MODEL=gemini-2.5-flash
 
 # Brand metadata
 BRAND_NAME=Qubnova Technologies
@@ -295,13 +296,45 @@ Variable notes:
 - `ALLOWED_ORIGINS`: comma-separated list of allowed frontend origins.
 - `ADMIN_NAME`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`: default admin values used by database seeding.
 - `ADMIN_SETUP_KEY`: optional key required by `POST /api/auth/register-admin` when set.
-- `AI_DEMO_MODE`: enables simulated AI behavior when set to `true`.
-- `AI_PROVIDER`: `demo` until a real AI provider is integrated.
-- `AI_API_KEY`: reserved for a future provider key; keep empty in demo mode.
-- `AI_MODEL`: reserved for a future provider model name.
+- `AI_DEMO_MODE`: legacy flag for simulated AI behavior; keep `false` when using Gemini.
+- `AI_PROVIDER`: identifies the active provider; use `gemini` for the Nova voice chatbot.
+- `GEMINI_API_KEY`: private Gemini API key used only by the Express backend. Paste your key in `server/.env`, never in `client/.env`.
+- `GEMINI_MODEL`: Gemini model used by the chatbot. The default route fallback is `gemini-2.5-flash`.
 - `BRAND_NAME`, `FOUNDER_NAME`, `CONTACT_EMAIL`: reusable brand metadata.
 
 > Never commit real `.env` files or production secrets. Commit only `.env.example` files with safe placeholder values.
+
+## Gemini voice chatbot setup
+
+The floating Nova Assistant can now talk to visitors using a real Gemini API key. The browser handles speech-to-text and text-to-speech, while the backend securely calls Gemini so the API key is never exposed in frontend code.
+
+Local setup:
+
+```bash
+cd server
+cp .env.example .env
+```
+
+Then open `server/.env` and replace this placeholder:
+
+```env
+GEMINI_API_KEY=paste-your-gemini-api-key-here
+GEMINI_MODEL=gemini-2.5-flash
+```
+
+Run both apps:
+
+```bash
+cd server
+npm run dev
+```
+
+```bash
+cd client
+npm run dev
+```
+
+Open `http://localhost:5173`, click the floating Nova bot, and use **Talk to Nova**. Voice input works best in Chrome because it depends on the browser `SpeechRecognition` API.
 
 ## Run the frontend
 
