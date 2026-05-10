@@ -683,3 +683,67 @@ Recommended next improvements include:
 ## License
 
 See [LICENSE](./LICENSE) for licensing information.
+
+## Implemented Express API foundation
+
+This repository now includes a root-level Express backend in `server/` rather than a nested `server/src/` layout. The implemented backend contains:
+
+- `server/server.js` for Express app setup, CORS, JSON parsing, health checks, and route mounting.
+- `server/config/db.js` for MongoDB/Mongoose connection setup.
+- `server/models/` for User, Project, Design, Service, Message, Blog, and Testimonial schemas.
+- `server/controllers/` for auth, projects, designs, services, messages, blogs, and testimonials.
+- `server/routes/` for the required REST API endpoints.
+- `server/middleware/` for JWT protection, admin authorization, 404 handling, and API errors.
+- `server/seed/seed.js` for professional Qubnova demo content and the default admin account.
+
+### Backend scripts
+
+From `server/`:
+
+```bash
+npm run dev
+npm start
+npm run seed
+```
+
+### Backend API routes
+
+Public routes:
+
+- `GET /api/health`
+- `POST /api/auth/login`
+- `POST /api/auth/register-admin`
+- `GET /api/projects`
+- `GET /api/projects/:slug`
+- `GET /api/designs`
+- `GET /api/services`
+- `POST /api/messages`
+- `GET /api/blogs`
+- `GET /api/blogs/:slug`
+- `GET /api/testimonials`
+
+Admin-protected routes require `Authorization: Bearer <token>`:
+
+- `GET /api/auth/me`
+- `POST /api/projects`
+- `PUT /api/projects/:id`
+- `DELETE /api/projects/:id`
+- `POST /api/designs`
+- `PUT /api/designs/:id`
+- `DELETE /api/designs/:id`
+- `POST /api/services`
+- `PUT /api/services/:id`
+- `DELETE /api/services/:id`
+- `GET /api/messages`
+- `PUT /api/messages/:id/read`
+- `DELETE /api/messages/:id`
+- `POST /api/blogs`
+- `PUT /api/blogs/:id`
+- `DELETE /api/blogs/:id`
+- `POST /api/testimonials`
+- `PUT /api/testimonials/:id`
+- `DELETE /api/testimonials/:id`
+
+### Pull request conflict resolution note
+
+If older pull requests that attempted to add the monorepo scaffold or backend API show GitHub conflicts, prefer merging the newest consolidation branch created from the current `work` branch. This branch already includes the client foundation, AI demo utilities, README updates, seed script, and the backend API files, so the older conflicted pull requests can be closed after the consolidated branch is reviewed.
