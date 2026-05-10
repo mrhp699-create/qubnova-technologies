@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { CheckCircle2, Inbox, LogOut, RefreshCw } from 'lucide-react';
+import { CheckCircle2, Inbox, LogOut, Mail, Phone, RefreshCw, Trash2 } from 'lucide-react';
 import PageHero from '../components/common/PageHero.jsx';
 import Card from '../components/common/Card.jsx';
 import EmptyState from '../components/common/EmptyState.jsx';
@@ -57,11 +57,21 @@ export default function AdminDashboard() {
     [dashboardData],
   );
   const unreadMessages = dashboardData.messages.filter((message) => message.status !== 'read').length;
-  const recentMessages = dashboardData.messages.slice(0, 5);
+  const sortedMessages = dashboardData.messages;
 
   const handleMarkRead = async (messageId) => {
     await api.put(`/messages/${messageId}/read`);
     await loadDashboard();
+  };
+
+  const handleDeleteMessage = async (messageId) => {
+    await api.delete(`/messages/${messageId}`);
+    await loadDashboard();
+  };
+
+  const formatDate = (date) => {
+    if (!date) return 'New inquiry';
+    return new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(date));
   };
 
   return (
@@ -105,27 +115,44 @@ export default function AdminDashboard() {
                   <div className="mb-5 flex items-center justify-between gap-3">
                     <div>
                       <p className="text-sm font-black uppercase tracking-[0.18em] text-slate-500 dark:text-aurora-slate">Inbox</p>
-                      <h2 className="mt-1 text-2xl font-black text-aurora-ink dark:text-white">Recent project requests</h2>
+                      <h2 className="mt-1 text-2xl font-black text-aurora-ink dark:text-white">All contact queries and messages</h2>
                     </div>
                     <span className="rounded-full bg-aurora-cyan/10 px-4 py-2 text-sm font-black text-aurora-cyan">{unreadMessages} unread</span>
                   </div>
 
-                  {recentMessages.length ? (
-                    <div className="space-y-3">
-                      {recentMessages.map((message) => (
-                        <article key={message._id} className="rounded-3xl border border-slate-200/70 bg-white/70 p-4 dark:border-white/10 dark:bg-white/[0.04]">
+                  {sortedMessages.length ? (
+                    <div className="max-h-[46rem] space-y-4 overflow-y-auto pr-1">
+                      {sortedMessages.map((message) => (
+                        <article key={message._id} className={`rounded-3xl border p-4 ${message.status !== 'read' ? 'border-aurora-cyan/40 bg-aurora-cyan/10' : 'border-slate-200/70 bg-white/70 dark:border-white/10 dark:bg-white/[0.04]'}`}>
                           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                             <div>
-                              <p className="font-black text-aurora-ink dark:text-white">{message.name}</p>
-                              <p className="text-sm font-semibold text-slate-500 dark:text-aurora-slate">{message.email} · {message.projectType}</p>
+                              <div className="flex flex-wrap items-center gap-2">
+                                <p className="font-black text-aurora-ink dark:text-white">{message.name}</p>
+                                <span className={`rounded-full px-3 py-1 text-[0.65rem] font-black uppercase tracking-[0.14em] ${message.status !== 'read' ? 'bg-aurora-cyan text-aurora-midnight' : 'bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-aurora-slate'}`}>{message.status || 'unread'}</span>
+                              </div>
+                              <p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-slate-400 dark:text-aurora-slate">{formatDate(message.createdAt)}</p>
                             </div>
-                            {message.status !== 'read' ? (
-                              <button type="button" onClick={() => handleMarkRead(message._id)} className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-200">
-                                <CheckCircle2 size={15} /> Mark read
+                            <div className="flex flex-wrap gap-2">
+                              {message.status !== 'read' ? (
+                                <button type="button" onClick={() => handleMarkRead(message._id)} className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-200">
+                                  <CheckCircle2 size={15} /> Mark read
+                                </button>
+                              ) : null}
+                              <button type="button" onClick={() => handleDeleteMessage(message._id)} className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-red-600 dark:text-red-200">
+                                <Trash2 size={15} /> Delete
                               </button>
-                            ) : null}
+                            </div>
                           </div>
-                          <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600 dark:text-aurora-slate">{message.message}</p>
+                          <div className="mt-4 grid gap-2 text-sm font-semibold text-slate-600 dark:text-aurora-slate sm:grid-cols-2">
+                            <a href={`mailto:${message.email}`} className="inline-flex items-center gap-2 rounded-2xl bg-white/70 px-3 py-2 transition hover:text-aurora-violet dark:bg-white/10"><Mail size={16} /> {message.email}</a>
+                            <a href={message.phone ? `tel:${message.phone}` : undefined} className="inline-flex items-center gap-2 rounded-2xl bg-white/70 px-3 py-2 dark:bg-white/10"><Phone size={16} /> {message.phone || 'No phone provided'}</a>
+                          </div>
+                          <div className="mt-3 rounded-2xl bg-white/75 p-4 dark:bg-white/[0.06]">
+                            <p className="text-xs font-black uppercase tracking-[0.18em] text-aurora-violet dark:text-aurora-cyan">Project type</p>
+                            <p className="mt-1 font-black text-aurora-ink dark:text-white">{message.projectType}</p>
+                            <p className="mt-4 text-xs font-black uppercase tracking-[0.18em] text-aurora-violet dark:text-aurora-cyan">Visitor message</p>
+                            <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-700 dark:text-aurora-slate">{message.message}</p>
+                          </div>
                         </article>
                       ))}
                     </div>
