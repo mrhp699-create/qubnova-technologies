@@ -5,11 +5,13 @@
 :root {
   color-scheme: light;
   background: #f8fafc;
+  text-rendering: geometricPrecision;
+  font-synthesis: none;
 }
 
 .dark {
   color-scheme: dark;
-  background: #0b1020;
+  background: #070a17;
 }
 
 html {
@@ -20,17 +22,40 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #f8fafc;
-  color: #111827;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(0, 212, 255, 0.1), transparent 34rem),
+    radial-gradient(circle at top right, rgba(124, 58, 237, 0.1), transparent 34rem),
+    #f8fafc;
+  color: #0b1020;
 }
 
 .dark body {
-  background: #0b1020;
+  background:
+    radial-gradient(circle at top left, rgba(0, 212, 255, 0.18), transparent 36rem),
+    radial-gradient(circle at top right, rgba(124, 58, 237, 0.2), transparent 38rem),
+    #070a17;
   color: #f8fafc;
 }
 
+body::selection,
 ::selection {
   background: rgba(0, 212, 255, 0.35);
+}
+
+img {
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @layer components {
@@ -39,14 +64,83 @@ body {
   }
 
   .section-spacing {
-    @apply py-20 sm:py-24 lg:py-28;
+    @apply py-20 sm:py-24 lg:py-32;
   }
 
   .aurora-text {
-    @apply bg-aurora-linear bg-clip-text text-transparent;
+    @apply bg-aurora-linear bg-[length:220%_220%] bg-clip-text text-transparent animate-gradient-pan;
   }
 
   .glass-panel {
-    @apply border border-white/20 bg-white/70 shadow-aurora backdrop-blur-2xl dark:border-white/10 dark:bg-white/10;
+    @apply border border-white/20 bg-white/75 shadow-luxury shadow-inner-glow backdrop-blur-2xl dark:border-white/10 dark:bg-white/[0.08];
+  }
+
+  .premium-border {
+    @apply relative overflow-hidden;
+  }
+
+  .premium-border::before {
+    content: '';
+    @apply pointer-events-none absolute inset-0 rounded-[inherit] p-px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.75), rgba(0,212,255,0.45), rgba(124,58,237,0.38), rgba(248,211,106,0.34));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .shine-overlay {
+    @apply pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit];
+  }
+
+  .shine-overlay::after {
+    content: '';
+    @apply absolute inset-y-[-35%] left-0 w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 transition-opacity duration-500;
+  }
+
+  .group:hover .shine-overlay::after,
+  .shine-overlay:hover::after {
+    @apply opacity-100 animate-shimmer;
+  }
+
+  .mesh-grid {
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.13) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.13) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(circle at center, black 0%, transparent 72%);
+  }
+
+  .luxury-noise {
+    background-image:
+      radial-gradient(circle at 25% 20%, rgba(255,255,255,0.65) 0 1px, transparent 1px),
+      radial-gradient(circle at 78% 42%, rgba(255,255,255,0.38) 0 1px, transparent 1px);
+    background-size: 28px 28px, 38px 38px;
+    opacity: 0.22;
+  }
+
+  .image-polish {
+    @apply relative overflow-hidden rounded-[1.75rem] bg-aurora-ink shadow-luxury;
+  }
+
+  .image-polish img {
+    @apply h-full w-full object-cover transition duration-700 ease-out;
+  }
+
+  .image-polish::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-t from-aurora-obsidian/[0.72] via-transparent to-white/10;
+  }
+
+  .group:hover .image-polish img,
+  .image-polish:hover img {
+    @apply scale-105;
+  }
+
+  .input-luxury {
+    @apply w-full rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 text-aurora-ink outline-none transition placeholder:text-slate-400 focus:border-aurora-cyan focus:bg-white focus:shadow-glow dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:placeholder:text-slate-500 dark:focus:bg-white/[0.09];
+  }
+
+  .floating-orb {
+    @apply pointer-events-none absolute rounded-full blur-3xl;
   }
 }
