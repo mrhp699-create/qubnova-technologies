@@ -20,6 +20,7 @@ import BlogDetails from './pages/BlogDetails.jsx';
 import Contact from './pages/Contact.jsx';
 import AdminLogin from './pages/AdminLogin.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
+import RequireAdminAuth from './components/admin/RequireAdminAuth.jsx';
 
 export default function App() {
   const location = useLocation();
@@ -51,7 +52,14 @@ export default function App() {
             <Route path="/blog/:slug" element={<BlogDetails />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <RequireAdminAuth>
+                  <AdminDashboard />
+                </RequireAdminAuth>
+              }
+            />
             <Route path="*" element={<Home />} />
           </Routes>
         </motion.main>
