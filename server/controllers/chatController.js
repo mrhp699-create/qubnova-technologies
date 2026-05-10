@@ -4,6 +4,7 @@ const GEMINI_API_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
 const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
 const MAX_MESSAGE_LENGTH = 1200;
 const MAX_HISTORY_ITEMS = 8;
+// Keep Gemini calls bounded so the widget returns a clear timeout instead of hanging.
 const GEMINI_TIMEOUT_MS = 30000;
 
 const systemInstruction = [
