@@ -24,11 +24,12 @@ import RequireAdminAuth from './components/admin/RequireAdminAuth.jsx';
 
 export default function App() {
   const location = useLocation();
+  const isAdminDashboard = location.pathname.startsWith('/admin/dashboard');
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-aurora-snow text-aurora-ink transition-colors dark:bg-aurora-midnight dark:text-white">
-      <SiteBackdrop />
-      <Navbar />
+      {!isAdminDashboard ? <SiteBackdrop /> : null}
+      {!isAdminDashboard ? <Navbar /> : null}
       <ScrollToTop />
       <AnimatePresence mode="wait">
         <motion.main
@@ -64,9 +65,9 @@ export default function App() {
           </Routes>
         </motion.main>
       </AnimatePresence>
-      <Footer />
-      <WhatsAppButton />
-      <ChatbotWidget />
+      {!isAdminDashboard ? <Footer /> : null}
+      {!isAdminDashboard ? <WhatsAppButton /> : null}
+      {!isAdminDashboard ? <ChatbotWidget /> : null}
     </div>
   );
 }
