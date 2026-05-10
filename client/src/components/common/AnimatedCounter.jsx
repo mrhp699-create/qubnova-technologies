@@ -15,9 +15,16 @@ export default function AnimatedCounter({ value, suffix = '', label }) {
   useEffect(() => spring.on('change', (latest) => setDisplay(Math.round(latest))), [spring]);
 
   return (
-    <div ref={ref} className="rounded-3xl border border-white/10 bg-white/10 p-6 text-center backdrop-blur">
-      <motion.div className="text-4xl font-black text-white">{display}{suffix}</motion.div>
-      <p className="mt-2 text-sm font-medium text-aurora-slate">{label}</p>
-    </div>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -6 }}
+      className="premium-border rounded-[1.75rem] bg-white/10 p-6 text-center shadow-inner-glow backdrop-blur-xl"
+    >
+      <motion.div className="aurora-text text-4xl font-black">{display}{suffix}</motion.div>
+      <p className="mt-2 text-sm font-semibold text-aurora-slate">{label}</p>
+    </motion.div>
   );
 }

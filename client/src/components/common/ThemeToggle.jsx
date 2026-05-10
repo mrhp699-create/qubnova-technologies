@@ -9,7 +9,7 @@ export default function ThemeToggle() {
   }, [dark]);
 
   return (
-    <button onClick={() => setDark((v) => !v)} className="rounded-full border border-aurora-slate/50 bg-white/80 p-2 text-aurora-ink transition hover:border-aurora-cyan dark:border-white/10 dark:bg-white/10 dark:text-white" aria-label="Toggle dark mode">
+    <button onClick={() => setDark((v) => !v)} className="premium-border rounded-full bg-white/[0.80] p-2.5 text-aurora-ink shadow-sm backdrop-blur-xl transition hover:-translate-y-0.5 dark:bg-white/10 dark:text-white" aria-label="Toggle dark mode">
       {dark ? <Sun size={18} /> : <Moon size={18} />}
     </button>
   );
