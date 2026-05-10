@@ -253,7 +253,7 @@ PORT=5000
 API_BASE_PATH=/api
 
 # Database
-MONGODB_URI=mongodb://127.0.0.1:27017/qubnova-technologies
+MONGO_URI=mongodb://127.0.0.1:27017/qubnova-technologies
 
 # Security and auth
 JWT_SECRET=replace-with-a-long-random-secret
@@ -268,6 +268,7 @@ ALLOWED_ORIGINS=http://localhost:5173
 ADMIN_NAME=Qubnova Admin
 ADMIN_EMAIL=admin@qubnova.com
 ADMIN_PASSWORD=ChangeMe123!
+ADMIN_SETUP_KEY=optional-register-admin-key
 
 # AI mode
 AI_DEMO_MODE=true
@@ -286,13 +287,14 @@ Variable notes:
 - `NODE_ENV`: runtime environment such as `development`, `test`, or `production`.
 - `PORT`: local or hosted port for the Express server.
 - `API_BASE_PATH`: base route prefix for API endpoints.
-- `MONGODB_URI`: MongoDB connection string for local MongoDB or MongoDB Atlas.
+- `MONGO_URI`: MongoDB connection string for local MongoDB or MongoDB Atlas.
 - `JWT_SECRET`: private secret used to sign authentication tokens.
 - `JWT_EXPIRES_IN`: token lifetime.
 - `BCRYPT_SALT_ROUNDS`: password hashing cost factor.
 - `CLIENT_URL`: primary frontend URL allowed to access the API.
 - `ALLOWED_ORIGINS`: comma-separated list of allowed frontend origins.
 - `ADMIN_NAME`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`: default admin values used by database seeding.
+- `ADMIN_SETUP_KEY`: optional key required by `POST /api/auth/register-admin` when set.
 - `AI_DEMO_MODE`: enables simulated AI behavior when set to `true`.
 - `AI_PROVIDER`: `demo` until a real AI provider is integrated.
 - `AI_API_KEY`: reserved for a future provider key; keep empty in demo mode.
@@ -351,7 +353,7 @@ GET http://localhost:5000/api/health
 
 ## Seed MongoDB
 
-Before seeding, make sure MongoDB is running locally or that `MONGODB_URI` points to a valid MongoDB Atlas cluster.
+Before seeding, make sure MongoDB is running locally or that `MONGO_URI` points to a valid MongoDB Atlas cluster.
 
 Typical seed workflow:
 
@@ -388,12 +390,20 @@ For safe production usage:
 
 ## Default admin login
 
-The recommended default admin seed account is:
+The default admin account is created when you run `npm run seed` from the `server` folder. The seed script reads `ADMIN_EMAIL` and `ADMIN_PASSWORD` from `server/.env`; if they are not set, it uses:
 
 ```text
 Email: admin@qubnova.com
 Password: ChangeMe123!
 ```
+
+Local login checklist:
+
+1. Start MongoDB or point `MONGO_URI` at MongoDB Atlas.
+2. Run `cd server && cp .env.example .env && npm install && npm run seed`.
+3. Start the API with `npm run dev`; the local API should be `http://localhost:5000/api`.
+4. Start the frontend from `client` with `npm run dev`.
+5. Open `http://localhost:5173/admin/login` and enter the seeded email and password.
 
 Important security steps:
 
@@ -511,7 +521,7 @@ Add values in Render service settings:
 NODE_ENV=production
 PORT=10000
 API_BASE_PATH=/api
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/qubnova-technologies?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster-url>/qubnova-technologies?retryWrites=true&w=majority
 JWT_SECRET=<long-random-production-secret>
 JWT_EXPIRES_IN=7d
 BCRYPT_SALT_ROUNDS=10
@@ -576,7 +586,7 @@ Use MongoDB Atlas for production or shared cloud development databases.
 Example:
 
 ```env
-MONGODB_URI=mongodb+srv://qubnova_user:strong-password@cluster0.example.mongodb.net/qubnova-technologies?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://qubnova_user:strong-password@cluster0.example.mongodb.net/qubnova-technologies?retryWrites=true&w=majority
 ```
 
 ### 5. Use the URI in the backend
