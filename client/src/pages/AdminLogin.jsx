@@ -48,7 +48,7 @@ export default function AdminLogin() {
             <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-aurora-linear text-white shadow-glow"><LockKeyhole /></span>
             {error ? <div className="mt-6 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-bold text-red-600 dark:text-red-200">{error}</div> : null}
             <label htmlFor="admin-email" className="mt-6 block text-sm font-black uppercase tracking-[0.18em] text-slate-500 dark:text-aurora-slate">Email</label>
-            <input id="admin-email" name="email" type="email" autoComplete="email" value={form.email} onChange={handleChange} required className="input-luxury mt-2" placeholder="admin@qubnova.tech" />
+            <input id="admin-email" name="email" type="email" autoComplete="email" value={form.email} onChange={handleChange} required className="input-luxury mt-2" placeholder="admin@qubnova.com" />
             <label htmlFor="admin-password" className="mt-5 block text-sm font-black uppercase tracking-[0.18em] text-slate-500 dark:text-aurora-slate">Password</label>
             <input id="admin-password" name="password" type="password" autoComplete="current-password" value={form.password} onChange={handleChange} required className="input-luxury mt-2" placeholder="••••••••" />
             <GradientButton type="submit" disabled={isSubmitting} className="mt-6 w-full disabled:cursor-not-allowed disabled:opacity-70">

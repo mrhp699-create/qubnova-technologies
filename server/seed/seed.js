@@ -243,9 +243,9 @@ const seed = async () => {
   ]);
 
   await User.create({
-    name: 'Moaz Saeed',
+    name: process.env.ADMIN_NAME || 'Qubnova Admin',
     email: process.env.ADMIN_EMAIL || 'admin@qubnova.com',
-    password: process.env.ADMIN_PASSWORD || 'Admin@12345',
+    password: process.env.ADMIN_PASSWORD || 'ChangeMe123!',
     role: 'admin',
   });
 
@@ -257,7 +257,7 @@ const seed = async () => {
 
   console.log('Qubnova seed complete.');
   console.log(`Admin email: ${process.env.ADMIN_EMAIL || 'admin@qubnova.com'}`);
-  console.log(`Admin password: ${process.env.ADMIN_PASSWORD || 'Admin@12345'}`);
+  console.log(`Admin password: ${process.env.ADMIN_PASSWORD || 'ChangeMe123!'}`);
   await mongooseDisconnect();
 };
 
