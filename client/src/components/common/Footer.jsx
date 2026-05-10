@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import { BriefcaseBusiness, GitBranch, Mail, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const columns = [
@@ -21,7 +21,7 @@ export default function Footer() {
             </Link>
             <p className="mt-5 max-w-md leading-7 text-aurora-slate">A premium software house for AI-powered products, SaaS platforms, automation, and standout digital experiences founded by Moaz Saeed.</p>
             <div className="mt-6 flex gap-3">
-              {[Twitter, Linkedin, Github, Mail].map((Icon, i) => <a key={i} href="/contact" className="premium-border rounded-full bg-white/10 p-2.5 text-aurora-slate transition hover:-translate-y-1 hover:text-white"><Icon size={18} /></a>)}
+              {[MessageCircle, BriefcaseBusiness, GitBranch, Mail].map((Icon, i) => <a key={i} href="/contact" className="premium-border rounded-full bg-white/10 p-2.5 text-aurora-slate transition hover:-translate-y-1 hover:text-white"><Icon size={18} /></a>)}
             </div>
           </div>
           <div className="grid gap-8 sm:grid-cols-3">

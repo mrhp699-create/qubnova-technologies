@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ArrowUpRight, Bot, BrainCircuit, CheckCircle2, Code2, ExternalLink, FileText, Github, Layers3, LayoutDashboard, Palette, Sparkles, Tags, Workflow } from 'lucide-react';
+import { ArrowUpRight, Bot, BrainCircuit, CheckCircle2, Code2, ExternalLink, FileText, GitBranch, Layers3, LayoutDashboard, Palette, Sparkles, Tags, Workflow } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Card from '../components/common/Card.jsx';
 import GradientButton from '../components/common/GradientButton.jsx';
@@ -255,7 +255,7 @@ export default function Projects() {
                         <ExternalLink size={16} /> Live Demo
                       </a>
                       <a href={`https://github.com/qubnova-technologies/${project.slug}`} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-black text-aurora-ink transition duration-300 hover:-translate-y-0.5 hover:bg-aurora-cyan/10 dark:text-white dark:hover:bg-white/10">
-                        <Github size={16} /> GitHub
+                        <GitBranch size={16} /> GitHub
                       </a>
                     </div>
                   </div>
