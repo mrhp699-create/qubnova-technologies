@@ -336,6 +336,8 @@ npm run dev
 
 Open `http://localhost:5173`, click the floating Nova bot, and use **Talk to Nova**. Voice input works best in Chrome because it depends on the browser `SpeechRecognition` API.
 
+If the browser console shows `POST http://localhost:5000/api/chat net::ERR_CONNECTION_REFUSED`, the frontend is running but the backend is not reachable. Start the Express server with `cd server && npm run dev`, confirm `http://localhost:5000/api/health` returns `ok`, and keep `VITE_API_BASE_URL=http://localhost:5000/api` in `client/.env`. Nova now falls back to a built-in Qubnova helper reply when the live AI server or Gemini key is unavailable, so visitors still get a human-friendly response instead of a dead error message.
+
 ## Run the frontend
 
 Start the frontend development server:
